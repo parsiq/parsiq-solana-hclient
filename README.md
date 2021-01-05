@@ -1,4 +1,4 @@
-#Solana Blockchain Golang JSON RPC client
+# Solana Blockchain Golang JSON RPC client
 
 Client initialization example:
 ```golang
