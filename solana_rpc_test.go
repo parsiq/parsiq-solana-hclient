@@ -15,7 +15,7 @@ func TestGetConfirmedBlock(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetConfirmedBlockWithLimit(t *testing.T) {
@@ -24,7 +24,7 @@ func TestGetConfirmedBlockWithLimit(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetEpochInfo(t *testing.T) {
@@ -33,26 +33,19 @@ func TestGetEpochInfo(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetAccountInfo(t *testing.T) {
-	type Parameters struct {
-		Encoding  string `json:"encoding"`
-		DataSlice struct {
-			Offset uint `json:"offset"`
-			Length uint `json:"length"`
-		} `json:"dataSlice"`
-	}
-	params := Parameters{
-		Encoding: "base58",
+	params := &AccountInfoParams{
+		Encoding: "base64",
 	}
 	client := NewSolanaRpcClient(testApiRpcAddr)
-	resp, err := client.GetAccountInfo("A39v6FsgGKMQcEQjHnb88xPxpGKxx1FkhA6CkDzL8b3e", params)
+	resp, err := client.GetAccountInfo("6h9jyRgfpmgXNyaWpbDpbxbCoF56WEbzsruhMwDn2om4", params)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetFirstAvailableBlock(t *testing.T) {
@@ -61,7 +54,7 @@ func TestGetFirstAvailableBlock(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetGenesisHash(t *testing.T) {
@@ -70,5 +63,5 @@ func TestGetGenesisHash(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("+%v\n", resp.Result)
+	fmt.Printf("%+v\n", resp.Result)
 }

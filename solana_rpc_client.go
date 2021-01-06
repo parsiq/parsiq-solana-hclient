@@ -64,14 +64,19 @@ func (client *SolanaRpcClient) GetEpochInfo() (*GetEpochInfoResp, error) {
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
-func (client *SolanaRpcClient) GetAccountInfo(pubkey string, optional interface{}) (*GetAccountInfoResp, error) {
-
-	request := client.buildRequest("getAccountInfo", pubkey, optional)
+func (client *SolanaRpcClient) GetAccountInfo(pubkey string, params *AccountInfoParams) (*GetAccountInfoResp, error) {
+	request := client.buildRequest("getAccountInfo", pubkey, params)
 	responseObj := &GetAccountInfoResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
 	return responseObj, nil
+}
+
+func (client *SolanaRpcClient) GetAccountInfoSimple(pubKey string) (*GetAccountInfoResp, error) {
+	return client.GetAccountInfo(pubKey, &AccountInfoParams{
+		Encoding: "base64",
+	})
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#getfirstavailableblock

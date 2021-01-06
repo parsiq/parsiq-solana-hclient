@@ -45,12 +45,25 @@ type GetGenesisHashResp struct {
 	Result string `json:"result"`
 }
 
+type AccountInfoParams struct {
+	Encoding  string `json:"encoding"`
+	DataSlice struct {
+		Offset uint `json:"offset"`
+		Length uint `json:"length"`
+	} `json:"dataSlice"`
+}
+
 type AccountInfo struct {
-	Lamports   uint64   `json:"lamports"`
-	Owner      string   `json:"owner"`
-	Data       []string `json:"data"`
-	Executable bool     `json:"executable"`
-	RentEpoch  uint64   `json:"rentEpoch"`
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		Data       []string `json:"data"`
+		Executable bool     `json:"executable"`
+		Lamports   uint64   `json:"lamports"`
+		Owner      string   `json:"owner"`
+		RentEpoch  uint64   `json:"rentEpoch"`
+	} `json:"value"`
 }
 
 type EpochInfo struct {
