@@ -8,7 +8,7 @@ resp, err := client.GetConfirmedBlock(59_211_174)
 if err != nil {
     panic(err)
 }
-fmt.Printf("+%v\n", resp.Result)
+fmt.Printf("%+v\n", resp.Result)
 ```
 
 Supported API methods:

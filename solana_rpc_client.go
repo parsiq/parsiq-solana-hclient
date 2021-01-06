@@ -73,6 +73,7 @@ func (client *SolanaRpcClient) GetAccountInfo(pubkey string, params *AccountInfo
 	return responseObj, nil
 }
 
+// https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo base64
 func (client *SolanaRpcClient) GetAccountInfoSimple(pubKey string) (*GetAccountInfoResp, error) {
 	return client.GetAccountInfo(pubKey, &AccountInfoParams{
 		Encoding: "base64",
