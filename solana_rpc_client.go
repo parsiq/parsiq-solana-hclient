@@ -53,6 +53,47 @@ func (client *SolanaRpcClient) GetConfirmedBlocksWithLimit(startSlot, limit uint
 	return responseObj, nil
 }
 
+// https://docs.solana.com/developing/clients/jsonrpc-api#getepochinfo
+func (client *SolanaRpcClient) GetEpochInfo() (*GetEpochInfoResp, error) {
+	request := client.buildRequest("getEpochInfo")
+	responseObj := &GetEpochInfoResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
+func (client *SolanaRpcClient) GetAccountInfo(pubkey string, optional interface{}) (*GetAccountInfoResp, error) {
+
+	request := client.buildRequest("getAccountInfo", pubkey, optional)
+	responseObj := &GetAccountInfoResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#getfirstavailableblock
+func (client *SolanaRpcClient) GetFirstAvailableBlock() (*GetFirstAvailableBlockResp, error) {
+	request := client.buildRequest("getFirstAvailableBlock")
+	responseObj := &GetFirstAvailableBlockResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#getgenesishash
+func (client *SolanaRpcClient) GetGenesisHash() (*GetGenesisHashResp, error) {
+	request := client.buildRequest("getGenesisHash")
+	responseObj := &GetGenesisHashResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj interface{}) error {
 	buffer := &bytes.Buffer{}
 	data, _ := json.Marshal(request)

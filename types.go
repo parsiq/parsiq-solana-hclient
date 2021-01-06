@@ -25,6 +25,42 @@ type GetConfirmedBlocksWithLimitResp struct {
 	Result []uint64 `json:"result"`
 }
 
+type GetFirstAvailableBlockResp struct {
+	SolanaRpcClient
+	Result uint64 `json:"result"`
+}
+
+type GetEpochInfoResp struct {
+	SolanaBaseRpcResponse
+	Result *EpochInfo `json:"result"`
+}
+
+type GetAccountInfoResp struct {
+	SolanaRpcClient
+	Result *AccountInfo `json:"result"`
+}
+
+type GetGenesisHashResp struct {
+	SolanaRpcClient
+	Result string `json:"result"`
+}
+
+type AccountInfo struct {
+	Lamports   uint64   `json:"lamports"`
+	Owner      string   `json:"owner"`
+	Data       []string `json:"data"`
+	Executable bool     `json:"executable"`
+	RentEpoch  uint64   `json:"rentEpoch"`
+}
+
+type EpochInfo struct {
+	AbsoluteSlot uint64 `json:"absoluteSlot"`
+	BlockHeight  uint64 `json:"blockHeight"`
+	Epoch        uint64 `json:"epoch"`
+	SlotIndex    uint64 `json:"slotIndex"`
+	SlotsInEpoch uint64 `json:"slotsInEpoch"`
+}
+
 type SolanaBlock struct {
 	BlockTime         uint64 `json:"blockTime"`
 	Blockhash         string `json:"blockhash"`
