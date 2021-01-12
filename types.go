@@ -45,12 +45,112 @@ type GetGenesisHashResp struct {
 	Result string `json:"result"`
 }
 
+type GetBalanceResp struct {
+	SolanaRpcClient
+	Result *Balance `json:"result"`
+}
+
+type GetClusterNodesResp struct {
+	SolanaRpcClient
+	Result []*ClusterNodes `json:"result"`
+}
+
+type GetLargestAccountsResp struct {
+	SolanaRpcClient
+	Result *LargestAccounts `json:"result"`
+}
+
+type GetFeesResp struct {
+	SolanaRpcClient
+	Result *Fees `json:"result"`
+}
+
+type SendTransaction struct {
+	SolanaRpcClient
+	Result string `json:"result"`
+}
+
+type SimulateTransactionResp struct {
+	SolanaRpcClient
+	Result *SimulateTransaction `json:"result"`
+}
+
+type SimulateTransaction struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		Err  interface{} `json:"err"`
+		Logs []string    `json:"logs"`
+	} `json:"value"`
+}
+
+type Fees struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		Blockhash     string `json:"blockhash"`
+		FeeCalculator struct {
+			LamportsPerSignature uint64 `json:"lamportsPerSignature"`
+		} `json:"feeCalculator"`
+		LastValidSlot uint64 `json:"lastValidSlot"`
+	}
+}
+
+type Balance struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value uint64 `json:"value"`
+}
+
+type LargestAccounts struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value []struct {
+		Lamports uint64 `json:"lamports"`
+		Address  string `json:"address"`
+	} `json:"value"`
+}
+
+type LargestAccountsParams struct {
+	Commitment string `json:"commitment"`
+	Filter     string `json:"filter"`
+}
+
 type AccountInfoParams struct {
-	Encoding  string `json:"encoding"`
-	DataSlice struct {
+	Commitment string `json:"commitment"`
+	Encoding   string `json:"encoding"`
+	DataSlice  struct {
 		Offset uint `json:"offset"`
 		Length uint `json:"length"`
 	} `json:"dataSlice"`
+}
+
+type ClusterNodes struct {
+	Gossip  string `json:"gossip"`
+	Pubkey  string `json:"pubkey"`
+	Rpc     string `json:"rpc"`
+	Tpu     string `json:"tpu"`
+	Version string `json:"version"`
+}
+
+type Commitment struct {
+	Commitment string `json:"commitment"`
+}
+
+type SimulateTransactionParam struct {
+	SigVerify  bool   `json:"sigVerify"`
+	Commitment string `json:"commitment"`
+	Encoding   string `json:"encoding"`
+}
+
+type SendTransactionParams struct {
+	SkipPreflight       bool   `json:"skipPreflight"`
+	PreflightCommitment string `json:"preflightCommitment"`
+	Encoding            string `json:"encoding"`
 }
 
 type AccountInfo struct {
@@ -58,11 +158,11 @@ type AccountInfo struct {
 		Slot uint64 `json:"slot"`
 	} `json:"context"`
 	Value struct {
-		Data       []string `json:"data"`
-		Executable bool     `json:"executable"`
-		Lamports   uint64   `json:"lamports"`
-		Owner      string   `json:"owner"`
-		RentEpoch  uint64   `json:"rentEpoch"`
+		Data       interface{} `json:"data"`
+		Executable bool        `json:"executable"`
+		Lamports   uint64      `json:"lamports"`
+		Owner      string      `json:"owner"`
+		RentEpoch  uint64      `json:"rentEpoch"`
 	} `json:"value"`
 }
 
