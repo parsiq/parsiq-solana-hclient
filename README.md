@@ -19,3 +19,9 @@ Supported API methods:
 * getFirstAvailableBlock
 * getGenesisHash
 * getAccountInfo
+* getBalance
+* getClusterNodes
+* getLargestAccounts
+* getFees
+* simulateTransaction
+* sendTransaction
