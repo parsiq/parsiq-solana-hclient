@@ -26,7 +26,7 @@ type GetConfirmedBlocksWithLimitResp struct {
 }
 
 type GetFirstAvailableBlockResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result uint64 `json:"result"`
 }
 
@@ -36,42 +36,42 @@ type GetEpochInfoResp struct {
 }
 
 type GetAccountInfoResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result *AccountInfo `json:"result"`
 }
 
 type GetGenesisHashResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result string `json:"result"`
 }
 
 type GetBalanceResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result *Balance `json:"result"`
 }
 
 type GetClusterNodesResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result []*ClusterNodes `json:"result"`
 }
 
 type GetLargestAccountsResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result *LargestAccounts `json:"result"`
 }
 
 type GetFeesResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result *Fees `json:"result"`
 }
 
 type SendTransaction struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result string `json:"result"`
 }
 
 type SimulateTransactionResp struct {
-	SolanaRpcClient
+	SolanaBaseRpcResponse
 	Result *SimulateTransaction `json:"result"`
 }
 
