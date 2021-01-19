@@ -67,7 +67,7 @@ func (client *SolanaRpcClient) GetEpochInfo(commitment ...*Commitment) (*GetEpoc
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#getaccountinfo
-//TODO doesnt return full data if optional parameters are passed, check in tests
+//TODO doesnt return full data if optional parameters are passed, possibly bug on solana side
 func (client *SolanaRpcClient) GetAccountInfo(pubKey string, params ...*AccountInfoParams) (*GetAccountInfoResp, error) {
 	request := &SolanaRpcRequest{}
 	if params == nil {
@@ -173,14 +173,119 @@ func (client *SolanaRpcClient) SimulateTransaction(blockHash string, params ...*
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#sendtransaction
-func (client *SolanaRpcClient) SendTransaction(transaction string, params ...*SendTransactionParams) (*SendTransaction, error) {
+func (client *SolanaRpcClient) SendTransaction(transaction string, params ...*SendTransactionParams) (*SendTransactionResp, error) {
 	request := &SolanaRpcRequest{}
 	if params == nil {
 		request = client.buildRequest("simulateTransaction", transaction)
 	} else {
 		request = client.buildRequest("simulateTransaction", transaction, params[0])
 	}
-	responseObj := &SendTransaction{}
+	responseObj := &SendTransactionResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountbalance UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenAccountBalance(pubKey string, commitment ...Commitment) (*GetTokenAccountBalanceResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getTokenAccountBalance", pubKey)
+	} else {
+		request = client.buildRequest("getTokenAccountBalance", pubKey, commitment[0])
+	}
+	responseObj := &GetTokenAccountBalanceResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountsbydelegate mint is used instead of programId. UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenAccountByDelegate(pubKey, mint string, params ...*AccountInfoParams) (*GetTokenAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getTokenAccountsByDelegate", pubKey, &Mint{Mint: mint})
+	} else {
+		request = client.buildRequest("getTokenAccountsByDelegate", pubKey, &Mint{Mint: mint}, params[0])
+	}
+	responseObj := &GetTokenAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountsbydelegate programId instead of mint. UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenAccountByDelegateByProgramID(pubKey, programId string, params ...*AccountInfoParams) (*GetTokenAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getTokenAccountsByDelegate", pubKey, &ProgramID{ProgramID: programId})
+	} else {
+		request = client.buildRequest("getTokenAccountsByDelegate", pubKey, &ProgramID{ProgramID: programId}, params[0])
+	}
+	responseObj := &GetTokenAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountsbyowner mint is used instead of programId. UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenAccountByOwner(pubKey, mint string, params ...*AccountInfoParams) (*GetTokenAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getTokenAccountsByOwner", pubKey, &Mint{Mint: mint})
+	} else {
+		request = client.buildRequest("getTokenAccountsByOwner", pubKey, &Mint{Mint: mint}, params[0])
+	}
+	responseObj := &GetTokenAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountsbyowner programId is used instead of mint. UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenAccountByOwnerByProgramID(pubKey, programId string, params ...*AccountInfoParams) (*GetTokenAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getTokenAccountsByOwner", pubKey, &ProgramID{ProgramID: programId})
+	} else {
+		request = client.buildRequest("getTokenAccountsByOwner", pubKey, &ProgramID{ProgramID: programId}, params[0])
+	}
+	responseObj := &GetTokenAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokenlargestaccounts UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenLargestAccounts(pubKey string, commitment ...Commitment) (*GetTokenLargestAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getTokenLargestAccounts", pubKey)
+	} else {
+		request = client.buildRequest("getTokenLargestAccounts", pubKey, commitment[0])
+	}
+	responseObj := &GetTokenLargestAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+// https://docs.solana.com/developing/clients/jsonrpc-api#gettokensupply UNSTABLE USE AT YOUR OWN RISK
+func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...Commitment) (*GetTokenSupply, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getTokenSupply", pubKey)
+	} else {
+		request = client.buildRequest("getTokenSupply", pubKey, commitment[0])
+	}
+	responseObj := &GetTokenSupply{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}

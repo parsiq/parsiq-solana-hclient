@@ -20,6 +20,16 @@ type GetConfirmedBlockResp struct {
 	Result *SolanaBlock `json:"result"`
 }
 
+type GetTokenLargestAccountsResp struct {
+	SolanaBaseRpcResponse
+	Result *TokenLargestAccount `json:"result"`
+}
+
+type GetTokenSupply struct {
+	SolanaBaseRpcResponse
+	Result *TokenAccountBalance `json:"result"`
+}
+
 type GetConfirmedBlocksWithLimitResp struct {
 	SolanaBaseRpcResponse
 	Result []uint64 `json:"result"`
@@ -65,7 +75,7 @@ type GetFeesResp struct {
 	Result *Fees `json:"result"`
 }
 
-type SendTransaction struct {
+type SendTransactionResp struct {
 	SolanaBaseRpcResponse
 	Result string `json:"result"`
 }
@@ -75,6 +85,16 @@ type SimulateTransactionResp struct {
 	Result *SimulateTransaction `json:"result"`
 }
 
+type GetTokenAccountBalanceResp struct {
+	SolanaBaseRpcResponse
+	Result *TokenAccountBalance `json:"result"`
+}
+
+type GetTokenAccountsResp struct {
+	SolanaBaseRpcResponse
+	Result *TokenAccounts `json:"result"`
+}
+
 type SimulateTransaction struct {
 	Context struct {
 		Slot uint64 `json:"slot"`
@@ -82,6 +102,53 @@ type SimulateTransaction struct {
 	Value struct {
 		Err  interface{} `json:"err"`
 		Logs []string    `json:"logs"`
+	} `json:"value"`
+}
+
+type TokenAccountBalance struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		UiAmount float64 `json:"uiAmount"`
+		Amount   string  `json:"amount"`
+		Decimals uint8   `json:"decimals"`
+	} `json:"value"`
+}
+
+type TokenLargestAccount struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value []struct {
+		Address  string  `json:"address"`
+		UiAmount float64 `json:"uiAmount"`
+		Amount   string  `json:"amount"`
+		Decimals uint8   `json:"decimals"`
+	} `json:"value"`
+}
+
+type Mint struct {
+	Mint string `json:"mint"`
+}
+
+type ProgramID struct {
+	ProgramID string `json:"programId"`
+}
+
+type TokenAccounts struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value []struct {
+		PubKey  string `json:"pubKey"`
+		Account struct {
+			Lamports   uint64      `json:"lamports"`
+			Owner      string      `json:"owner"`
+			Data       interface{} `json:"data"`
+			Executable bool        `json:"executable"`
+			RentEpoch  uint64      `json:"rentEpoch"`
+		} `json:"account"`
 	} `json:"value"`
 }
 

@@ -25,3 +25,8 @@ Supported API methods:
 * getFees
 * simulateTransaction
 * sendTransaction
+* getTokenAccountBalance
+* getTokenAccountsByDelegate
+* getTokenAccountsByOwner
+* getTokenLargestAccounts
+* getTokenSupply

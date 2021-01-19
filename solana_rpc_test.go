@@ -145,3 +145,54 @@ func TestSimulateTransaction(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+//TODO for testing required v2 token
+func TestGetTokenAccountBalance(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetTokenAccountBalance("DY3613oY9RcPhs4jeZPevpueZGZcWRXNysicT8i3DwFZ")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetTokenAccountByDelegate(t *testing.T) {
+	client := &http.Client{
+		Transport: &http.Transport{
+			IdleConnTimeout:       5 * time.Minute,
+			MaxIdleConnsPerHost:   100,
+			ResponseHeaderTimeout: time.Second * 320,
+		},
+	}
+	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
+	resp, err := custom.GetTokenAccountByDelegate("63hfbwj4LMkL45t1hhbVp4ajBsdwMTp1Jg6kjGAJq1SU", "B79Rux3VRvZWgTqbgFp8vq4ezyMzrApvvfDLuNmuLeen")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetTokenLargestAccounts(t *testing.T) {
+	client := &http.Client{
+		Transport: &http.Transport{
+			IdleConnTimeout:       5 * time.Minute,
+			MaxIdleConnsPerHost:   100,
+			ResponseHeaderTimeout: time.Second * 60,
+		},
+	}
+	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
+	resp, err := custom.GetTokenLargestAccounts("5jqymuoXXVcUuJKrf1MWiHSqHyg2osMaJGVy69NsJWyP")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetTokenSupply(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetTokenSupply("5jqymuoXXVcUuJKrf1MWiHSqHyg2osMaJGVy69NsJWyP")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
