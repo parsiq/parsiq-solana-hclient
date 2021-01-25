@@ -3,6 +3,7 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -188,7 +189,7 @@ func (client *SolanaRpcClient) SendTransaction(transaction string, params ...*Se
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#gettokenaccountbalance UNSTABLE USE AT YOUR OWN RISK
-func (client *SolanaRpcClient) GetTokenAccountBalance(pubKey string, commitment ...Commitment) (*GetTokenAccountBalanceResp, error) {
+func (client *SolanaRpcClient) GetTokenAccountBalance(pubKey string, commitment ...*Commitment) (*GetTokenAccountBalanceResp, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getTokenAccountBalance", pubKey)
@@ -263,7 +264,7 @@ func (client *SolanaRpcClient) GetTokenAccountByOwnerByProgramID(pubKey, program
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#gettokenlargestaccounts UNSTABLE USE AT YOUR OWN RISK
-func (client *SolanaRpcClient) GetTokenLargestAccounts(pubKey string, commitment ...Commitment) (*GetTokenLargestAccountsResp, error) {
+func (client *SolanaRpcClient) GetTokenLargestAccounts(pubKey string, commitment ...*Commitment) (*GetTokenLargestAccountsResp, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getTokenLargestAccounts", pubKey)
@@ -278,7 +279,7 @@ func (client *SolanaRpcClient) GetTokenLargestAccounts(pubKey string, commitment
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#gettokensupply UNSTABLE USE AT YOUR OWN RISK
-func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...Commitment) (*GetTokenSupply, error) {
+func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...*Commitment) (*GetTokenSupply, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getTokenSupply", pubKey)
@@ -286,6 +287,66 @@ func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...Commi
 		request = client.buildRequest("getTokenSupply", pubKey, commitment[0])
 	}
 	responseObj := &GetTokenSupply{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getslot
+func (client *SolanaRpcClient) GetSlot(commitment ...*Commitment) (*GetSlotResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getSlot")
+	} else {
+		request = client.buildRequest("getSlot", commitment[0])
+	}
+	responseObj := &GetSlotResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getslotleader
+func (client *SolanaRpcClient) GetSlotLeader(commitment ...*Commitment) (*GetSlotLeaderResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getSlotLeader")
+	} else {
+		request = client.buildRequest("getSlotLeader", commitment[0])
+	}
+	responseObj := &GetSlotLeaderResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getstakeactivation
+func (client *SolanaRpcClient) GetStakeActivation(pubKey string, param ...*StakeActivationParam) (*GetStakeActivationResp, error) {
+	request := &SolanaRpcRequest{}
+	if param == nil {
+		request = client.buildRequest("getStakeActivation", pubKey)
+	} else {
+		request = client.buildRequest("getStakeActivation", pubKey, param[0])
+	}
+	responseObj := &GetStakeActivationResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getsupply
+func (client *SolanaRpcClient) GetSupply(commitment ...*Commitment) (*GetSupplyResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getSupply")
+	} else {
+		request = client.buildRequest("getSupply", commitment[0])
+	}
+	responseObj := &GetSupplyResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
@@ -303,6 +364,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
+	fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}

@@ -30,3 +30,7 @@ Supported API methods:
 * getTokenAccountsByOwner
 * getTokenLargestAccounts
 * getTokenSupply
+* getSlot
+* getSlotLeader
+* getStakeActivation
+* getSupply

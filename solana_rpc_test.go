@@ -196,3 +196,47 @@ func TestGetTokenSupply(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestGetSlot(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetSlot()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetSlotLeader(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetSlotLeader()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetStakeActivation(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetStakeActivation("BUyTfHHrp3HQ4TQXaXrRrNuhLsbz23auKYNrxkQRfViP")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetSupply(t *testing.T) {
+	client := &http.Client{
+		Transport: &http.Transport{
+			IdleConnTimeout:       5 * time.Minute,
+			MaxIdleConnsPerHost:   100,
+			ResponseHeaderTimeout: time.Second * 30,
+		},
+	}
+	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
+
+	resp, err := custom.GetSupply()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}

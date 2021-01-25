@@ -95,6 +95,49 @@ type GetTokenAccountsResp struct {
 	Result *TokenAccounts `json:"result"`
 }
 
+type GetStakeActivationResp struct {
+	SolanaBaseRpcResponse
+	Result *StakeActivation `json:"result"`
+}
+
+type GetSlotResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
+}
+
+type GetSlotLeaderResp struct {
+	SolanaBaseRpcResponse
+	Result string `json:"result"`
+}
+
+type GetSupplyResp struct {
+	SolanaBaseRpcResponse
+	Result *Supply `json:"result"`
+}
+
+type StakeActivation struct {
+	State    string `json:"state"`
+	Active   uint64 `json:"active"`
+	Inactive uint64 `json:"inactive"`
+}
+
+type StakeActivationParam struct {
+	Commitment string `json:"commitment"`
+	Epoch      uint64 `json:"epoch"`
+}
+
+type Supply struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		Total                  uint64   `json:"total"`
+		Circulating            uint64   `json:"circulating"`
+		NonCirculating         uint64   `json:"nonCirculating"`
+		NonCirculatingAccounts []string `json:"nonCirculatingAccounts"`
+	}
+}
+
 type SimulateTransaction struct {
 	Context struct {
 		Slot uint64 `json:"slot"`
