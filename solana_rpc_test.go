@@ -240,3 +240,7 @@ func TestGetSupply(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestGetBlockCommitment(t *testing.T) {
+
+}

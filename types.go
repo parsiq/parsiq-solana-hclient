@@ -115,6 +115,16 @@ type GetSupplyResp struct {
 	Result *Supply `json:"result"`
 }
 
+type GetBlockCommitmentResp struct {
+	SolanaBaseRpcResponse
+	Result *BlockCommitment `json:"result"`
+}
+
+type BlockCommitment struct {
+	Commitment []uint64 `json:"commitment"`
+	TotalStake uint64   `json:"totalStake"`
+}
+
 type StakeActivation struct {
 	State    string `json:"state"`
 	Active   uint64 `json:"active"`

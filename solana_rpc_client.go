@@ -3,7 +3,6 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -112,6 +111,17 @@ func (client *SolanaRpcClient) GetBalance(pubKey string, commitment ...*Commitme
 		request = client.buildRequest("getBalance", pubKey, commitment[0])
 	}
 	responseObj := &GetBalanceResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getblockcommitment
+//TODO make a proper test for this one
+func (client *SolanaRpcClient) GetBlockCommitment(block uint64) (*GetBlockCommitmentResp, error) {
+	request := client.buildRequest("getBlockCommitment", block)
+	responseObj := &GetBlockCommitmentResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
