@@ -34,3 +34,4 @@ Supported API methods:
 * getSlotLeader
 * getStakeActivation
 * getSupply
+* getBlockCommitment
