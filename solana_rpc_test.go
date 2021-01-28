@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	testApiRpcAddr = "http://10.20.30.100:8899"
+	testApiRpcAddr = "http://10.20.90.100:8899"
 )
 
 func TestGetConfirmedBlock(t *testing.T) {
@@ -242,5 +242,10 @@ func TestGetSupply(t *testing.T) {
 }
 
 func TestGetBlockCommitment(t *testing.T) {
-
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetBlockCommitment(5)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
 }
