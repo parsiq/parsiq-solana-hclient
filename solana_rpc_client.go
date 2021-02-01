@@ -3,6 +3,7 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -318,6 +319,47 @@ func (client *SolanaRpcClient) GetSlot(commitment ...*Commitment) (*GetSlotResp,
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#getblocktime
+func (client *SolanaRpcClient) GetBlockTime(block uint64) (*GetBlockTimeResp, error) {
+	request := client.buildRequest("getBlockTime", block)
+	responseObj := &GetBlockTimeResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
+func (client *SolanaRpcClient) GetRecentBlockhash(commitment ...Commitment) (*GetRecentBlockHashResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getRecentBlockhash")
+	} else {
+		request = client.buildRequest("getRecentBlockhash", commitment[0])
+	}
+	responseObj := &GetRecentBlockHashResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts
+//TODO "code":-32602,"message":"Invalid params: invalid value: map, expected map with a single key."
+func (client *SolanaRpcClient) GetProgramAccounts(pubKey string, params ...ProgramAccountParams) (*GetProgramAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getProgramAccounts", pubKey)
+	} else {
+		request = client.buildRequest("getProgramAccounts", pubKey, params[0])
+	}
+	responseObj := &GetProgramAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 //https://docs.solana.com/developing/clients/jsonrpc-api#getslotleader
 func (client *SolanaRpcClient) GetSlotLeader(commitment ...*Commitment) (*GetSlotLeaderResp, error) {
 	request := &SolanaRpcRequest{}
@@ -374,7 +416,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	//fmt.Println(string(bodyBytes))
+	fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}

@@ -243,7 +243,47 @@ func TestGetSupply(t *testing.T) {
 
 func TestGetBlockCommitment(t *testing.T) {
 	client := NewSolanaRpcClient(testApiRpcAddr)
-	resp, err := client.GetBlockCommitment(5)
+	resp, err := client.GetBlockCommitment(10000)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+func TestGetBlockTime(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	epoch, err := client.GetEpochInfo()
+	resp, err := client.GetBlockTime(epoch.Result.AbsoluteSlot)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetProgramAccounts(t *testing.T) {
+	client := &http.Client{
+		Transport: &http.Transport{
+			IdleConnTimeout:       5 * time.Minute,
+			MaxIdleConnsPerHost:   100,
+			ResponseHeaderTimeout: time.Second * 120,
+		},
+	}
+	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
+	filter := make([]Filter, 1)
+
+	filter[0].DataSize = 17
+	filter[0].Memcmp.Offset = 4
+	filter[0].Memcmp.Bytes = "3Mc6vR"
+
+	resp, err := custom.GetProgramAccounts("4Nd1mBQtrMJVYVfKf2PJy9NZUZdTAsp7D4xWLs4gDB4T", ProgramAccountParams{Filters: filter})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetRecentBlockhash(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetRecentBlockhash()
 	if err != nil {
 		panic(err)
 	}

@@ -35,3 +35,5 @@ Supported API methods:
 * getStakeActivation
 * getSupply
 * getBlockCommitment
+* getBlockTime
+* getRecentBlockhash

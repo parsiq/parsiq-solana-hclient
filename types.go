@@ -95,6 +95,11 @@ type GetTokenAccountsResp struct {
 	Result *TokenAccounts `json:"result"`
 }
 
+type GetBlockTimeResp struct {
+	SolanaBaseRpcResponse
+	Result int64 `json:"result"`
+}
+
 type GetStakeActivationResp struct {
 	SolanaBaseRpcResponse
 	Result *StakeActivation `json:"result"`
@@ -113,6 +118,16 @@ type GetSlotLeaderResp struct {
 type GetSupplyResp struct {
 	SolanaBaseRpcResponse
 	Result *Supply `json:"result"`
+}
+
+type GetProgramAccountsResp struct {
+	SolanaBaseRpcResponse
+	Result []*ProgramAccounts `json:"result"`
+}
+
+type GetRecentBlockHashResp struct {
+	SolanaRpcClient
+	Result *RecentBlockHash `json:"result"`
 }
 
 type GetBlockCommitmentResp struct {
@@ -225,6 +240,27 @@ type Balance struct {
 	Value uint64 `json:"value"`
 }
 
+type ProgramAccounts struct {
+	PubKey  string `json:"pubKey"`
+	Account struct {
+		Lamports   uint64 `json:"lamports"`
+		Owner      string `json:"owner"`
+		Executable bool   `json:"executable"`
+		RentEpoch  uint64 `json:"rentEpoch"`
+	} `json:"account"`
+}
+
+type RecentBlockHash struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		RpcResponse   interface{} `json:"RpcResponse"`
+		BlockHash     string      `json:"blockhash"`
+		FeeCalculator interface{} `json:"feeCalculator"`
+	} `json:"value"`
+}
+
 type LargestAccounts struct {
 	Context struct {
 		Slot uint64 `json:"slot"`
@@ -247,6 +283,24 @@ type AccountInfoParams struct {
 		Offset uint `json:"offset"`
 		Length uint `json:"length"`
 	} `json:"dataSlice"`
+}
+
+type ProgramAccountParams struct {
+	Commitment string `json:"commitment"`
+	Encoding   string `json:"encoding"`
+	DataSlice  struct {
+		Offset uint `json:"offset"`
+		Length uint `json:"length"`
+	} `json:"dataSlice"`
+	Filters []Filter `json:"filters"`
+}
+
+type Filter struct {
+	Memcmp struct {
+		Offset uint64 `json:"offset"`
+		Bytes  string `json:"bytes"`
+	} `json:"memcmp"`
+	DataSize uint64 `json:"dataSize"`
 }
 
 type ClusterNodes struct {
