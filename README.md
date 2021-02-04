@@ -37,3 +37,7 @@ Supported API methods:
 * getBlockCommitment
 * getBlockTime
 * getRecentBlockhash
+* getIdentity
+* getInflationGovernor
+* getInflationRate
+* getLeadersSchedule

@@ -274,7 +274,7 @@ func TestGetProgramAccounts(t *testing.T) {
 	filter[0].Memcmp.Offset = 4
 	filter[0].Memcmp.Bytes = "3Mc6vR"
 
-	resp, err := custom.GetProgramAccounts("4Nd1mBQtrMJVYVfKf2PJy9NZUZdTAsp7D4xWLs4gDB4T", ProgramAccountParams{Filters: filter})
+	resp, err := custom.GetProgramAccounts("4Nd1mBQtrMJVYVfKf2PJy9NZUZdTAsp7D4xWLs4gDB4T", &ProgramAccountParams{Filters: filter})
 	if err != nil {
 		panic(err)
 	}
@@ -284,6 +284,49 @@ func TestGetProgramAccounts(t *testing.T) {
 func TestGetRecentBlockhash(t *testing.T) {
 	client := NewSolanaRpcClient(testApiRpcAddr)
 	resp, err := client.GetRecentBlockhash()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetIdentity(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetIdentity()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetInflationGovernor(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetInflationGovernor(Commitment{Commitment: "root"})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetInflationRate(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetInflationRate()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetLeadersSchedule(t *testing.T) {
+	client := &http.Client{
+		Transport: &http.Transport{
+			IdleConnTimeout:       5 * time.Minute,
+			MaxIdleConnsPerHost:   100,
+			ResponseHeaderTimeout: time.Second * 120,
+		},
+	}
+	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
+	resp, err := custom.GetLeadersSchedule()
 	if err != nil {
 		panic(err)
 	}

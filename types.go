@@ -25,9 +25,21 @@ type GetTokenLargestAccountsResp struct {
 	Result *TokenLargestAccount `json:"result"`
 }
 
-type GetTokenSupply struct {
+type GetTokenSupplyResp struct {
 	SolanaBaseRpcResponse
 	Result *TokenAccountBalance `json:"result"`
+}
+
+type GetLeaderScheduleResp struct {
+	SolanaBaseRpcResponse
+	Result interface{} `json:"result"`
+}
+
+type GetIdentityResp struct {
+	SolanaBaseRpcResponse
+	Result struct {
+		Identity string `json:"identity"`
+	} `json:"result"`
 }
 
 type GetConfirmedBlocksWithLimitResp struct {
@@ -60,9 +72,19 @@ type GetBalanceResp struct {
 	Result *Balance `json:"result"`
 }
 
+type GetInflationGovernorResp struct {
+	SolanaBaseRpcResponse
+	Result *InflationGovernor `json:"result"`
+}
+
 type GetClusterNodesResp struct {
 	SolanaBaseRpcResponse
 	Result []*ClusterNodes `json:"result"`
+}
+
+type GetInflationRateResp struct {
+	SolanaBaseRpcResponse
+	Result *InflationRate `json:"result"`
 }
 
 type GetLargestAccountsResp struct {
@@ -146,6 +168,21 @@ type StakeActivation struct {
 	Inactive uint64 `json:"inactive"`
 }
 
+type InflationGovernor struct {
+	Initial        float64 `json:"initial"`
+	Terminal       float64 `json:"terminal"`
+	Taper          float64 `json:"taper"`
+	Foundation     float64 `json:"foundation"`
+	FoundationTerm float64 `json:"foundationTerm"`
+}
+
+type InflationRate struct {
+	Total      float64 `json:"total"`
+	Validator  float64 `json:"validator"`
+	Foundation float64 `json:"foundation"`
+	Epoch      float64 `json:"epoch"`
+}
+
 type StakeActivationParam struct {
 	Commitment string `json:"commitment"`
 	Epoch      uint64 `json:"epoch"`
@@ -171,6 +208,11 @@ type SimulateTransaction struct {
 		Err  interface{} `json:"err"`
 		Logs []string    `json:"logs"`
 	} `json:"value"`
+}
+
+type LeadersSchedule struct {
+	Slot       uint64
+	Commitment string
 }
 
 type TokenAccountBalance struct {
@@ -311,6 +353,7 @@ type ClusterNodes struct {
 	Version string `json:"version"`
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
 type Commitment struct {
 	Commitment string `json:"commitment"`
 }

@@ -290,14 +290,14 @@ func (client *SolanaRpcClient) GetTokenLargestAccounts(pubKey string, commitment
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#gettokensupply UNSTABLE USE AT YOUR OWN RISK
-func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...*Commitment) (*GetTokenSupply, error) {
+func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...*Commitment) (*GetTokenSupplyResp, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getTokenSupply", pubKey)
 	} else {
 		request = client.buildRequest("getTokenSupply", pubKey, commitment[0])
 	}
-	responseObj := &GetTokenSupply{}
+	responseObj := &GetTokenSupplyResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
@@ -344,9 +344,71 @@ func (client *SolanaRpcClient) GetRecentBlockhash(commitment ...Commitment) (*Ge
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#getidentity
+func (client *SolanaRpcClient) GetIdentity() (*GetIdentityResp, error) {
+	request := client.buildRequest("getIdentity")
+	responseObj := &GetIdentityResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getinflationgovernor
+func (client *SolanaRpcClient) GetInflationGovernor(commitment ...Commitment) (*GetInflationGovernorResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getInflationGovernor")
+	} else {
+		request = client.buildRequest("getInflationGovernor", commitment[0])
+	}
+	responseObj := &GetInflationGovernorResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getinflationrate
+func (client *SolanaRpcClient) GetInflationRate() (*GetInflationRateResp, error) {
+	request := client.buildRequest("getInflationRate")
+	responseObj := &GetInflationRateResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getleaderschedule
+func (client *SolanaRpcClient) GetLeadersSchedule(params ...LeadersSchedule) (*GetLeaderScheduleResp, error) {
+	request := &SolanaRpcRequest{}
+	if params != nil {
+		if params[0].Commitment == "" {
+			if params[0].Slot != 0 {
+				request = client.buildRequest("getLeaderSchedule", params[0].Slot)
+			} else {
+				request = client.buildRequest("getLeaderSchedule")
+			}
+		} else {
+			if params[0].Slot != 0 {
+				request = client.buildRequest("getLeaderSchedule", params[0].Slot, Commitment{Commitment: params[0].Commitment})
+			} else {
+				request = client.buildRequest("getLeaderSchedule", 0, Commitment{Commitment: params[0].Commitment})
+			}
+		}
+	} else {
+		request = client.buildRequest("getLeaderSchedule")
+	}
+	responseObj := &GetLeaderScheduleResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 //https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts
 //TODO "code":-32602,"message":"Invalid params: invalid value: map, expected map with a single key."
-func (client *SolanaRpcClient) GetProgramAccounts(pubKey string, params ...ProgramAccountParams) (*GetProgramAccountsResp, error) {
+func (client *SolanaRpcClient) GetProgramAccounts(pubKey string, params ...*ProgramAccountParams) (*GetProgramAccountsResp, error) {
 	request := &SolanaRpcRequest{}
 	if params == nil {
 		request = client.buildRequest("getProgramAccounts", pubKey)
