@@ -23,6 +23,8 @@ Supported API methods:
 * getClusterNodes
 * getLargestAccounts
 * getFees
+* getFeeCalculatorForBlockhash
+* getFeeRateGovernor
 * simulateTransaction
 * sendTransaction
 * getTokenAccountBalance
@@ -41,3 +43,4 @@ Supported API methods:
 * getInflationGovernor
 * getInflationRate
 * getLeadersSchedule
+* getMultipleAccounts

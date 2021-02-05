@@ -301,7 +301,7 @@ func TestGetIdentity(t *testing.T) {
 
 func TestGetInflationGovernor(t *testing.T) {
 	client := NewSolanaRpcClient(testApiRpcAddr)
-	resp, err := client.GetInflationGovernor(Commitment{Commitment: "root"})
+	resp, err := client.GetInflationGovernor(&Commitment{Commitment: "root"})
 	if err != nil {
 		panic(err)
 	}
@@ -327,6 +327,33 @@ func TestGetLeadersSchedule(t *testing.T) {
 	}
 	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
 	resp, err := custom.GetLeadersSchedule()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetFeeCalculatorForBlockhash(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetFeeCalculatorForBlockhash("GK2zqSsXLA2rwVZk347RYhh6jJpRsCA69FjLW93ZGi3B")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetFeeRateGovernor(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetFeeRateGovernor()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetMultipleAccounts(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetMultipleAccounts([]string{"vines1vzrYbzLMRdu58ou5XTby4qAqVRLmqo36NKPTg", "4fYNw3dojWmQ4dXtSGE9epjRGy9pFSx62YypT7avPYvA"})
 	if err != nil {
 		panic(err)
 	}

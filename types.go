@@ -62,6 +62,10 @@ type GetAccountInfoResp struct {
 	Result *AccountInfo `json:"result"`
 }
 
+type GetFeeCalculatorForBlockhashResp struct {
+	Result interface{} `json:"result"`
+}
+
 type GetGenesisHashResp struct {
 	SolanaBaseRpcResponse
 	Result string `json:"result"`
@@ -70,6 +74,11 @@ type GetGenesisHashResp struct {
 type GetBalanceResp struct {
 	SolanaBaseRpcResponse
 	Result *Balance `json:"result"`
+}
+
+type GetMultipleAccountsResp struct {
+	SolanaBaseRpcResponse
+	Result *MultipleAccounts `json:"result"`
 }
 
 type GetInflationGovernorResp struct {
@@ -137,6 +146,11 @@ type GetSlotLeaderResp struct {
 	Result string `json:"result"`
 }
 
+type GetFeeRateGovernorResp struct {
+	SolanaBaseRpcResponse
+	Result *FeeRateGovernor `json:"result"`
+}
+
 type GetSupplyResp struct {
 	SolanaBaseRpcResponse
 	Result *Supply `json:"result"`
@@ -186,6 +200,21 @@ type InflationRate struct {
 type StakeActivationParam struct {
 	Commitment string `json:"commitment"`
 	Epoch      uint64 `json:"epoch"`
+}
+
+type FeeRateGovernor struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value struct {
+		FeeRateGovernor struct {
+			BurnPercent                uint8  `json:"burnPercent"`
+			MaxLamportsPerSignature    uint64 `json:"maxLamportsPerSignature"`
+			MinLamportsPerSignature    uint64 `json:"minLamportsPerSignature"`
+			TargetLamportsPerSignature uint64 `json:"targetLamportsPerSignature"`
+			TargetSignaturesPerSlot    uint64 `json:"targetSignaturesPerSlot"`
+		} `json:"feeRateGovernor"`
+	}
 }
 
 type Supply struct {
@@ -375,6 +404,19 @@ type AccountInfo struct {
 		Slot uint64 `json:"slot"`
 	} `json:"context"`
 	Value struct {
+		Data       interface{} `json:"data"`
+		Executable bool        `json:"executable"`
+		Lamports   uint64      `json:"lamports"`
+		Owner      string      `json:"owner"`
+		RentEpoch  uint64      `json:"rentEpoch"`
+	} `json:"value"`
+}
+
+type MultipleAccounts struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value []struct {
 		Data       interface{} `json:"data"`
 		Executable bool        `json:"executable"`
 		Lamports   uint64      `json:"lamports"`

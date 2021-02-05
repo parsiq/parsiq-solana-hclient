@@ -3,7 +3,6 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -330,7 +329,7 @@ func (client *SolanaRpcClient) GetBlockTime(block uint64) (*GetBlockTimeResp, er
 }
 
 //https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
-func (client *SolanaRpcClient) GetRecentBlockhash(commitment ...Commitment) (*GetRecentBlockHashResp, error) {
+func (client *SolanaRpcClient) GetRecentBlockhash(commitment ...*Commitment) (*GetRecentBlockHashResp, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getRecentBlockhash")
@@ -355,7 +354,7 @@ func (client *SolanaRpcClient) GetIdentity() (*GetIdentityResp, error) {
 }
 
 //https://docs.solana.com/developing/clients/jsonrpc-api#getinflationgovernor
-func (client *SolanaRpcClient) GetInflationGovernor(commitment ...Commitment) (*GetInflationGovernorResp, error) {
+func (client *SolanaRpcClient) GetInflationGovernor(commitment ...*Commitment) (*GetInflationGovernorResp, error) {
 	request := &SolanaRpcRequest{}
 	if commitment == nil {
 		request = client.buildRequest("getInflationGovernor")
@@ -380,7 +379,7 @@ func (client *SolanaRpcClient) GetInflationRate() (*GetInflationRateResp, error)
 }
 
 //https://docs.solana.com/developing/clients/jsonrpc-api#getleaderschedule
-func (client *SolanaRpcClient) GetLeadersSchedule(params ...LeadersSchedule) (*GetLeaderScheduleResp, error) {
+func (client *SolanaRpcClient) GetLeadersSchedule(params ...*LeadersSchedule) (*GetLeaderScheduleResp, error) {
 	request := &SolanaRpcRequest{}
 	if params != nil {
 		if params[0].Commitment == "" {
@@ -400,6 +399,46 @@ func (client *SolanaRpcClient) GetLeadersSchedule(params ...LeadersSchedule) (*G
 		request = client.buildRequest("getLeaderSchedule")
 	}
 	responseObj := &GetLeaderScheduleResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getfeecalculatorforblockhash
+func (client *SolanaRpcClient) GetFeeCalculatorForBlockhash(blockhash string, commitment ...*Commitment) (*GetFeeCalculatorForBlockhashResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getFeeCalculatorForBlockhash", blockhash)
+	} else {
+		request = client.buildRequest("getFeeCalculatorForBlockhash", blockhash, commitment[0])
+	}
+	responseObj := &GetFeeCalculatorForBlockhashResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getfeerategovernor
+func (client *SolanaRpcClient) GetFeeRateGovernor() (*GetFeeRateGovernorResp, error) {
+	request := client.buildRequest("getFeeRateGovernor")
+	responseObj := &GetFeeRateGovernorResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getmultipleaccounts
+func (client *SolanaRpcClient) GetMultipleAccounts(pubkeys []string, params ...*AccountInfoParams) (*GetMultipleAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getMultipleAccounts", pubkeys)
+	} else {
+		request = client.buildRequest("getMultipleAccounts", pubkeys, params[0])
+	}
+	responseObj := &GetMultipleAccountsResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
@@ -478,7 +517,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	fmt.Println(string(bodyBytes))
+	//fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}
