@@ -450,9 +450,27 @@ type SolanaBlock struct {
 			Fee               uint64        `json:"fee"`
 			InnerInstructions []interface{} `json:"innerInstructions"`
 			LogMessages       []string      `json:"logMessages"`
-			PostBalances      []uint64      `json:"postBalances"`
 			PreBalances       []uint64      `json:"preBalances"`
-			Status            struct {
+			PostBalances      []uint64      `json:"postBalances"`
+			PreTokenBalances  []*struct {
+				AccountIndex  uint16 `json:"accountIndex"`
+				Mint          string `json:"mint"`
+				UiTokenAmount struct {
+					Amount   string  `json:"amount"`
+					Decimals uint8   `json:"decimals"`
+					UiAmount float64 `json:"uiAmount"`
+				} `json:"uiTokenAmount"`
+			} `json:"preTokenBalances"`
+			PostTokenBalances []*struct {
+				AccountIndex  uint16 `json:"accountIndex"`
+				Mint          string `json:"mint"`
+				UiTokenAmount struct {
+					Amount   string  `json:"amount"`
+					Decimals uint8   `json:"decimals"`
+					UiAmount float64 `json:"uiAmount"`
+				} `json:"uiTokenAmount"`
+			} `json:"postTokenBalances"`
+			Status struct {
 				Ok interface{} `json:"Ok"`
 			} `json:"status"`
 		} `json:"meta"`

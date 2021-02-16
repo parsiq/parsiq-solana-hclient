@@ -13,7 +13,6 @@ const (
 )
 
 func TestGetConfirmedBlock(t *testing.T) {
-
 	client := NewSolanaRpcClient(testApiRpcAddr)
 	epoch, _ := client.GetEpochInfo()
 	resp, err := client.GetConfirmedBlock(epoch.Result.AbsoluteSlot)
@@ -23,7 +22,6 @@ func TestGetConfirmedBlock(t *testing.T) {
 	assert.NotEqual(t, resp.Result.BlockTime, nil, "block time is nil")
 	assert.NotEqual(t, resp.Result.Blockhash, nil, "blockhash is nil")
 	assert.NotEqual(t, resp.Result.Rewards, nil, "block time is nil")
-	fmt.Printf("%+v\n", resp.Result)
 }
 
 func TestGetConfirmedBlockWithLimit(t *testing.T) {
