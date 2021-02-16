@@ -22,6 +22,7 @@ func TestGetConfirmedBlock(t *testing.T) {
 	assert.NotEqual(t, resp.Result.BlockTime, nil, "block time is nil")
 	assert.NotEqual(t, resp.Result.Blockhash, nil, "blockhash is nil")
 	assert.NotEqual(t, resp.Result.Rewards, nil, "block time is nil")
+	assert.NotEqual(t, len(resp.Result.Transactions), 0, "invalid transactions count")
 }
 
 func TestGetConfirmedBlockWithLimit(t *testing.T) {

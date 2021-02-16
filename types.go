@@ -444,52 +444,54 @@ type SolanaBlock struct {
 		Pubkey      string `json:"pubkey"`
 		RewardType  string `json:"rewardType"`
 	} `json:"rewards"`
-	Transactions []struct {
-		Meta struct {
-			Err               interface{}   `json:"err"`
-			Fee               uint64        `json:"fee"`
-			InnerInstructions []interface{} `json:"innerInstructions"`
-			LogMessages       []string      `json:"logMessages"`
-			PreBalances       []uint64      `json:"preBalances"`
-			PostBalances      []uint64      `json:"postBalances"`
-			PreTokenBalances  []*struct {
-				AccountIndex  uint16 `json:"accountIndex"`
-				Mint          string `json:"mint"`
-				UiTokenAmount struct {
-					Amount   string  `json:"amount"`
-					Decimals uint8   `json:"decimals"`
-					UiAmount float64 `json:"uiAmount"`
-				} `json:"uiTokenAmount"`
-			} `json:"preTokenBalances"`
-			PostTokenBalances []*struct {
-				AccountIndex  uint16 `json:"accountIndex"`
-				Mint          string `json:"mint"`
-				UiTokenAmount struct {
-					Amount   string  `json:"amount"`
-					Decimals uint8   `json:"decimals"`
-					UiAmount float64 `json:"uiAmount"`
-				} `json:"uiTokenAmount"`
-			} `json:"postTokenBalances"`
-			Status struct {
-				Ok interface{} `json:"Ok"`
-			} `json:"status"`
-		} `json:"meta"`
-		Transaction struct {
-			Message struct {
-				AccountKeys []string `json:"accountKeys"`
-				Header      struct {
-					NumReadonlySignedAccounts   uint16 `json:"numReadonlySignedAccounts"`
-					NumReadonlyUnsignedAccounts uint16 `json:"numReadonlyUnsignedAccounts"`
-					NumRequiredSignatures       uint16 `json:"numRequiredSignatures"`
-				} `json:"header"`
-				Instructions []struct {
-					Accounts       []uint16 `json:"accounts"`
-					Data           string   `json:"data"`
-					ProgramIDIndex uint16   `json:"programIdIndex"`
-				} `json:"instructions"`
-				RecentBlockhash string `json:"recentBlockhash"`
-			} `json:"message"`
-			Signatures []string `json:"signatures"`
-		} `json:"transaction"`
-	} `json:"transactions"`
+	Transactions []*SolanaTransaction `json:"transactions"`
+}
+
+type SolanaTransaction struct {
+	Meta struct {
+		Err               interface{}   `json:"err"`
+		Fee               uint64        `json:"fee"`
+		InnerInstructions []interface{} `json:"innerInstructions"`
+		LogMessages       []string      `json:"logMessages"`
+		PreBalances       []uint64      `json:"preBalances"`
+		PostBalances      []uint64      `json:"postBalances"`
+		PreTokenBalances  []*struct {
+			AccountIndex  uint16 `json:"accountIndex"`
+			Mint          string `json:"mint"`
+			UiTokenAmount struct {
+				Amount   string  `json:"amount"`
+				Decimals uint8   `json:"decimals"`
+				UiAmount float64 `json:"uiAmount"`
+			} `json:"uiTokenAmount"`
+		} `json:"preTokenBalances"`
+		PostTokenBalances []*struct {
+			AccountIndex  uint16 `json:"accountIndex"`
+			Mint          string `json:"mint"`
+			UiTokenAmount struct {
+				Amount   string  `json:"amount"`
+				Decimals uint8   `json:"decimals"`
+				UiAmount float64 `json:"uiAmount"`
+			} `json:"uiTokenAmount"`
+		} `json:"postTokenBalances"`
+		Status struct {
+			Ok interface{} `json:"Ok"`
+		} `json:"status"`
+	} `json:"meta"`
+	Transaction struct {
+		Message struct {
+			AccountKeys []string `json:"accountKeys"`
+			Header      struct {
+				NumReadonlySignedAccounts   uint16 `json:"numReadonlySignedAccounts"`
+				NumReadonlyUnsignedAccounts uint16 `json:"numReadonlyUnsignedAccounts"`
+				NumRequiredSignatures       uint16 `json:"numRequiredSignatures"`
+			} `json:"header"`
+			Instructions []struct {
+				Accounts       []uint16 `json:"accounts"`
+				Data           string   `json:"data"`
+				ProgramIDIndex uint16   `json:"programIdIndex"`
+			} `json:"instructions"`
+			RecentBlockhash string `json:"recentBlockhash"`
+		} `json:"message"`
+		Signatures []string `json:"signatures"`
+	} `json:"transaction"`
 }
