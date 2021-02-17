@@ -3,6 +3,7 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -506,6 +507,57 @@ func (client *SolanaRpcClient) GetSupply(commitment ...*Commitment) (*GetSupplyR
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#getconfirmedsignaturesforaddress2
+func (client *SolanaRpcClient) GetConfirmedSignaturesForAddress2(address string, params ...*ConfirmedSignaturesParams) (*GetConfirmedSignaturesForAddressResp, error) {
+	request := &SolanaRpcRequest{}
+	if params == nil {
+		request = client.buildRequest("getConfirmedSignaturesForAddress2", address)
+	} else {
+		if params[0].Limit <= 0 {
+			//1000 is default parameter for limit
+			params[0].Limit = 1000
+		}
+		if params[0].Before != "" && params[0].Until != "" && params[0].Limit > 0 {
+			request = client.buildRequest("getConfirmedSignaturesForAddress2", address,
+				Limit{Limit: params[0].Limit},
+				Before{Before: params[0].Before},
+				Until{Until: params[0].Until})
+		}
+
+		if params[0].Until != "" {
+			request = client.buildRequest("getConfirmedSignaturesForAddress2", address,
+				Limit{Limit: params[0].Limit},
+				Until{Until: params[0].Until})
+		}
+		if params[0].Before != "" {
+			request = client.buildRequest("getConfirmedSignaturesForAddress2", address,
+				Limit{Limit: params[0].Limit},
+				Before{Before: params[0].Before})
+		}
+		request = client.buildRequest("getConfirmedSignaturesForAddress2", address, Limit{Limit: params[0].Limit})
+	}
+	responseObj := &GetConfirmedSignaturesForAddressResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getminimumbalanceforrentexemption
+func (client *SolanaRpcClient) GetMinimumBalanceForRentExemption(accountDataSize uint, commitment ...*Commitment) (*GetMinimumBalanceForRentExemptionResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getMinimumBalanceForRentExemption", accountDataSize)
+	} else {
+		request = client.buildRequest("getMinimumBalanceForRentExemption", accountDataSize, commitment[0])
+	}
+	responseObj := &GetMinimumBalanceForRentExemptionResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj interface{}) error {
 	buffer := &bytes.Buffer{}
 	data, _ := json.Marshal(request)
@@ -517,7 +569,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	//fmt.Println(string(bodyBytes))
+	fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}

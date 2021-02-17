@@ -81,6 +81,11 @@ type GetMultipleAccountsResp struct {
 	Result *MultipleAccounts `json:"result"`
 }
 
+type GetMinimumBalanceForRentExemptionResp struct {
+	SolanaBaseRpcResponse
+	Result *uint64 `json:"result"`
+}
+
 type GetInflationGovernorResp struct {
 	SolanaBaseRpcResponse
 	Result *InflationGovernor `json:"result"`
@@ -124,6 +129,11 @@ type GetTokenAccountBalanceResp struct {
 type GetTokenAccountsResp struct {
 	SolanaBaseRpcResponse
 	Result *TokenAccounts `json:"result"`
+}
+
+type GetConfirmedSignaturesForAddressResp struct {
+	SolanaBaseRpcResponse
+	Result *[]ConfirmedSignaturesForAddress `json:"result"`
 }
 
 type GetBlockTimeResp struct {
@@ -180,6 +190,31 @@ type StakeActivation struct {
 	State    string `json:"state"`
 	Active   uint64 `json:"active"`
 	Inactive uint64 `json:"inactive"`
+}
+
+type ConfirmedSignaturesForAddress struct {
+	Signature string      `json:"signature"`
+	Slot      uint64      `json:"slot"`
+	Err       interface{} `json:"err"`
+	Memo      string      `json:"memo"`
+}
+
+type ConfirmedSignaturesParams struct {
+	Limit  uint16 `json:"limit"` //1-1000, default 1000
+	Before string `json:"before"`
+	Until  string `json:"until"`
+}
+
+type Limit struct {
+	Limit uint16 `json:"limit"`
+}
+
+type Before struct {
+	Before string `json:"before"`
+}
+
+type Until struct {
+	Until string `json:"until"`
 }
 
 type InflationGovernor struct {

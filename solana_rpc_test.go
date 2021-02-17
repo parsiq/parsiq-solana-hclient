@@ -358,3 +358,21 @@ func TestGetMultipleAccounts(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestGetMinimumBalanceForRentExemption(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetMinimumBalanceForRentExemption(500)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetConfirmedSignaturesForAddress2(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetConfirmedSignaturesForAddress2("Vote111111111111111111111111111111111111111", &ConfirmedSignaturesParams{Limit: 1})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
