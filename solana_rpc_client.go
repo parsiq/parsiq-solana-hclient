@@ -38,6 +38,7 @@ func (client *SolanaRpcClient) GetConfirmedBlock(slotNumber uint64) (*GetConfirm
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
+	responseObj.Result.SlotNumber = slotNumber
 	return responseObj, nil
 }
 

@@ -469,6 +469,7 @@ type EpochInfo struct {
 }
 
 type SolanaBlock struct {
+	SlotNumber        uint64 `json:"slotNumber"`
 	BlockTime         uint64 `json:"blockTime"`
 	Blockhash         string `json:"blockhash"`
 	ParentSlot        uint64 `json:"parentSlot"`
