@@ -15,6 +15,16 @@ type SolanaBaseRpcResponse struct {
 	Id int `json:"id"`
 }
 
+type RequestAirdropResp struct {
+	SolanaBaseRpcResponse
+	Result string `json:"result"`
+}
+
+type GetSnapshotSlotResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
+}
+
 type GetConfirmedBlockResp struct {
 	SolanaBaseRpcResponse
 	Result *SolanaBlock `json:"result"`
@@ -28,6 +38,11 @@ type GetTokenLargestAccountsResp struct {
 type GetTokenSupplyResp struct {
 	SolanaBaseRpcResponse
 	Result *TokenAccountBalance `json:"result"`
+}
+
+type GetSignatureStatusesResp struct {
+	SolanaBaseRpcResponse
+	Result *SignatureStatuses `json:"result"`
 }
 
 type GetLeaderScheduleResp struct {
@@ -217,6 +232,10 @@ type Until struct {
 	Until string `json:"until"`
 }
 
+type SearchTransactionHistory struct {
+	SearchTransactionHistory bool `json:"searchTransactionHistory"`
+}
+
 type InflationGovernor struct {
 	Initial        float64 `json:"initial"`
 	Terminal       float64 `json:"terminal"`
@@ -230,6 +249,19 @@ type InflationRate struct {
 	Validator  float64 `json:"validator"`
 	Foundation float64 `json:"foundation"`
 	Epoch      float64 `json:"epoch"`
+}
+
+//NOT USING DEPRECATED FIELDS
+type SignatureStatuses struct {
+	Context struct {
+		Slot uint64 `json:"slot"`
+	} `json:"context"`
+	Value []struct {
+		Slot               uint64      `json:"slot"`
+		Confirmations      uint        `json:"confirmations"`
+		Err                interface{} `json:"err"`
+		ConfirmationStatus string      `json:"confirmationStatus"`
+	} `json:"value"`
 }
 
 type StakeActivationParam struct {

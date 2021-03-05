@@ -46,3 +46,6 @@ Supported API methods:
 * getMultipleAccounts
 * getMinimumBalanceForRentExemption
 * getConfirmedSignaturesForAddress2
+* requestAirdrop
+* getSnapshotSlot
+* getSignatureStatuses

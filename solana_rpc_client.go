@@ -545,6 +545,47 @@ func (client *SolanaRpcClient) GetConfirmedSignaturesForAddress2(address string,
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#requestairdrop
+//TODO err invalid request
+func (client *SolanaRpcClient) RequestAirdrop(pubKey string, lamports uint64, commitment ...*Commitment) (*RequestAirdropResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("requestAirdrop", pubKey, lamports)
+	} else {
+		request = client.buildRequest("requestAirdrop", pubKey, lamports, commitment[0])
+	}
+	responseObj := &RequestAirdropResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getsnapshotslot
+func (client *SolanaRpcClient) GetSnapshotSlot() (*GetSnapshotSlotResp, error) {
+	request := client.buildRequest("getSnapshotSlot")
+	responseObj := &GetSnapshotSlotResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getsignaturestatuses
+func (client *SolanaRpcClient) GetSignatureStatuses(signatures []string, searchTransactionHistory ...*SearchTransactionHistory) (*GetSignatureStatusesResp, error) {
+	request := &SolanaRpcRequest{}
+	if searchTransactionHistory == nil {
+		request = client.buildRequest("getSignatureStatuses", signatures)
+	} else {
+		request = client.buildRequest("getSignatureStatuses", signatures, searchTransactionHistory[0])
+	}
+	responseObj := &GetSignatureStatusesResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 //https://docs.solana.com/developing/clients/jsonrpc-api#getminimumbalanceforrentexemption
 func (client *SolanaRpcClient) GetMinimumBalanceForRentExemption(accountDataSize uint, commitment ...*Commitment) (*GetMinimumBalanceForRentExemptionResp, error) {
 	request := &SolanaRpcRequest{}

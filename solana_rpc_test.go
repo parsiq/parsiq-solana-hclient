@@ -376,3 +376,31 @@ func TestGetConfirmedSignaturesForAddress2(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestRequestAirdrop(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.RequestAirdrop("83astBRguLMdt2h5U1Tpdq5tjFoJ6noeGwaY3mDLVcri", 50)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetSnapshotSlot(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetSnapshotSlot()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetSignatureStatuses(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	signatures := []string{"3uB1ghrft2J6VBHt4PVoyaywkoYobyp2fGTzLEReuU5M1ASpBgXUXpKrR19Xj1bix29tMrnKjKACdm8kKEoHbzpK"}
+	resp, err := client.GetSignatureStatuses(signatures)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
