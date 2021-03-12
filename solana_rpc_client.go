@@ -3,7 +3,6 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -644,7 +643,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	fmt.Println(string(bodyBytes))
+	//fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}
