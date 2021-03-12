@@ -16,7 +16,7 @@ Supported API methods:
 * getConfirmedBlock
 * getConfirmedBlocks
 * getConfirmedBlocksWithLimit
-* gitConfirmedTransaction
+* getConfirmedTransaction
 * getEpochInfo
 * getFirstAvailableBlock
 * getGenesisHash
