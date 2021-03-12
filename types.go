@@ -20,6 +20,11 @@ type RequestAirdropResp struct {
 	Result string `json:"result"`
 }
 
+type GetConfirmedBlocksResp struct {
+	SolanaBaseRpcResponse
+	Result []uint64 `json:"result"`
+}
+
 type GetSnapshotSlotResp struct {
 	SolanaBaseRpcResponse
 	Result uint64 `json:"result"`
@@ -43,6 +48,11 @@ type GetTokenSupplyResp struct {
 type GetSignatureStatusesResp struct {
 	SolanaBaseRpcResponse
 	Result *SignatureStatuses `json:"result"`
+}
+
+type GetConfirmedTransactionResp struct {
+	SolanaBaseRpcResponse
+	Result *ConfirmedTransaction `json:"result"`
 }
 
 type GetLeaderScheduleResp struct {
@@ -262,6 +272,22 @@ type SignatureStatuses struct {
 		Err                interface{} `json:"err"`
 		ConfirmationStatus string      `json:"confirmationStatus"`
 	} `json:"value"`
+}
+
+type ConfirmedTransaction struct {
+	Slot        uint64      `json:"slot"`
+	Transaction interface{} `json:"transaction"`
+	BlockTime   int64       `json:"blockTime"`
+	Meta        struct {
+		Err               interface{} `json:"err"`
+		Fee               uint64      `json:"fee"`
+		PreBalances       []uint64    `json:"preBalances"`
+		PostBalances      []uint64    `json:"postBalances"`
+		InnerInstructions interface{} `json:"innerInstructions"`
+		PreTokenBalances  interface{} `json:"preTokenBalances"`
+		PostTokenBalances interface{} `json:"postTokenBalances"`
+		LogMessages       []string    `json:"logMessages"`
+	} `json:"meta"`
 }
 
 type StakeActivationParam struct {

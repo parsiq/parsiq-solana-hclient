@@ -14,7 +14,9 @@ fmt.Printf("%+v\n", resp.Result)
 Supported API methods:
 
 * getConfirmedBlock
+* getConfirmedBlocks
 * getConfirmedBlocksWithLimit
+* gitConfirmedTransaction
 * getEpochInfo
 * getFirstAvailableBlock
 * getGenesisHash

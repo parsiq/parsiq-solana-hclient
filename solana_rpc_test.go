@@ -404,3 +404,21 @@ func TestGetSignatureStatuses(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestGetConfirmedBlocks(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetConfirmedBlocks(68741495, 68741498)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetConfirmedTransaction(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetConfirmedTransaction("3rsVBRkmX5zACXxDmykh1yP2168z1qCS9huDZyfpQzDqTCiKLPP8j7EKaSoVEZ6mMtd5p7Aew4QQdUJ364FYEHX8", "json")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}

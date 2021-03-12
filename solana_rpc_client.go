@@ -3,6 +3,7 @@ package parsiq_solana_hclient
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -479,6 +480,37 @@ func (client *SolanaRpcClient) GetSlotLeader(commitment ...*Commitment) (*GetSlo
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#getconfirmedtransaction
+func (client *SolanaRpcClient) GetConfirmedTransaction(signature string, encoding string, returnValueEncoding ...string) (*GetConfirmedTransactionResp, error) {
+	request := &SolanaRpcRequest{}
+	if returnValueEncoding == nil {
+		request = client.buildRequest("getConfirmedTransaction", signature, encoding)
+	} else {
+		request = client.buildRequest("getConfirmedTransaction", signature, encoding, returnValueEncoding[0])
+	}
+	responseObj := &GetConfirmedTransactionResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getconfirmedblocks
+//Max range is 500_000 blocks, be careful when working with this function
+func (client *SolanaRpcClient) GetConfirmedBlocks(startSlot uint64, endSlot ...uint64) (*GetConfirmedBlocksResp, error) {
+	request := &SolanaRpcRequest{}
+	if endSlot != nil {
+		request = client.buildRequest("getConfirmedBlocks", startSlot, endSlot[0])
+	} else {
+		request = client.buildRequest("getConfirmedBlocks", startSlot)
+	}
+	responseObj := &GetConfirmedBlocksResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 //https://docs.solana.com/developing/clients/jsonrpc-api#getstakeactivation
 func (client *SolanaRpcClient) GetStakeActivation(pubKey string, param ...*StakeActivationParam) (*GetStakeActivationResp, error) {
 	request := &SolanaRpcRequest{}
@@ -612,7 +644,7 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	//fmt.Println(string(bodyBytes))
+	fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}
