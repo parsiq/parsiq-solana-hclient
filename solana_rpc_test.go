@@ -422,3 +422,84 @@ func TestGetConfirmedTransaction(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", resp.Result)
 }
+
+func TestGetEpochSchedule(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetEpochSchedule()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetHealth(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetHealth()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetMaxRetransmitSlot(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetMaxRetransmitSlot()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetMaxShredInsertSlot(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetMaxShredInsertSlot()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetRecentPerformanceSamples(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetRecentPerformanceSamples(5)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetTransactionCount(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetTransactionCount(&Commitment{Commitment: "confirmed"})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetVersion(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetVersion()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestGetVoteAccounts(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.GetVoteAccounts(&Commitment{Commitment: "processed"})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}
+
+func TestMinimumLedgersSlot(t *testing.T) {
+	client := NewSolanaRpcClient(testApiRpcAddr)
+	resp, err := client.MinimumLedgersSlot()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("%+v\n", resp.Result)
+}

@@ -306,6 +306,110 @@ func (client *SolanaRpcClient) GetTokenSupply(pubKey string, commitment ...*Comm
 	return responseObj, nil
 }
 
+//https://docs.solana.com/developing/clients/jsonrpc-api#getepochschedule
+func (client *SolanaRpcClient) GetEpochSchedule() (*GetEpochScheduleResp, error) {
+	request := client.buildRequest("getEpochSchedule")
+	responseObj := &GetEpochScheduleResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#gethealth
+//currently unstable
+func (client *SolanaRpcClient) GetHealth() (*GetHealhtResp, error) {
+	request := client.buildRequest("getHealth")
+	responseObj := &GetHealhtResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getmaxretransmitslot
+func (client *SolanaRpcClient) GetMaxRetransmitSlot() (*GetMaxRetransmitSlotResp, error) {
+	request := client.buildRequest("getMaxRetransmitSlot")
+	responseObj := &GetMaxRetransmitSlotResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getmaxshredinsertslot
+func (client *SolanaRpcClient) GetMaxShredInsertSlot() (*GetMaxShredInsertSlotResp, error) {
+	request := client.buildRequest("getMaxShredInsertSlot")
+	responseObj := &GetMaxShredInsertSlotResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getrecentperformancesamples
+func (client *SolanaRpcClient) GetRecentPerformanceSamples(limit uint16) (*GetRecentPerformanceSamplesResp, error) {
+	if limit > 720 {
+		limit = 720
+	}
+	request := client.buildRequest("getRecentPerformanceSamples", limit)
+	responseObj := &GetRecentPerformanceSamplesResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#gettransactioncount
+func (client *SolanaRpcClient) GetTransactionCount(commitment ...*Commitment) (*GetTransactionCountResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getTransactionCount")
+	} else {
+		request = client.buildRequest("getTransactionCount", commitment[0])
+	}
+	responseObj := &GetTransactionCountResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getversion
+func (client *SolanaRpcClient) GetVersion() (*GetVersionResp, error) {
+	request := client.buildRequest("getVersion")
+	responseObj := &GetVersionResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#getvoteaccounts
+func (client *SolanaRpcClient) GetVoteAccounts(commitment ...*Commitment) (*GetVoteAccountsResp, error) {
+	request := &SolanaRpcRequest{}
+	if commitment == nil {
+		request = client.buildRequest("getVoteAccounts")
+	} else {
+		request = client.buildRequest("getVoteAccounts", commitment[0])
+	}
+	responseObj := &GetVoteAccountsResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
+//https://docs.solana.com/developing/clients/jsonrpc-api#minimumledgerslot
+func (client *SolanaRpcClient) MinimumLedgersSlot() (*MinimumLedgerSlotResp, error) {
+	request := client.buildRequest("minimumLedgerSlot")
+	responseObj := &MinimumLedgerSlotResp{}
+	if err := client.doRequest(request, responseObj); err != nil {
+		return nil, err
+	}
+	return responseObj, nil
+}
+
 //https://docs.solana.com/developing/clients/jsonrpc-api#getslot
 func (client *SolanaRpcClient) GetSlot(commitment ...*Commitment) (*GetSlotResp, error) {
 	request := &SolanaRpcRequest{}

@@ -87,8 +87,18 @@ type GetAccountInfoResp struct {
 	Result *AccountInfo `json:"result"`
 }
 
+type GetEpochScheduleResp struct {
+	SolanaBaseRpcResponse
+	Result *EpochSchedule `json:"result"`
+}
+
 type GetFeeCalculatorForBlockhashResp struct {
 	Result interface{} `json:"result"`
+}
+
+type MinimumLedgerSlotResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
 }
 
 type GetGenesisHashResp struct {
@@ -99,6 +109,16 @@ type GetGenesisHashResp struct {
 type GetBalanceResp struct {
 	SolanaBaseRpcResponse
 	Result *Balance `json:"result"`
+}
+
+type GetVersionResp struct {
+	SolanaBaseRpcResponse
+	Result *SolanaVersion `json:"result"`
+}
+
+type GetRecentPerformanceSamplesResp struct {
+	SolanaBaseRpcResponse
+	Result []RpcPerfSample `json:"result"`
 }
 
 type GetMultipleAccountsResp struct {
@@ -134,6 +154,20 @@ type GetLargestAccountsResp struct {
 type GetFeesResp struct {
 	SolanaBaseRpcResponse
 	Result *Fees `json:"result"`
+}
+
+type GetMaxRetransmitSlotResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
+}
+
+type GetMaxShredInsertSlotResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
+}
+type GetHealhtResp struct {
+	SolanaBaseRpcResponse
+	Result interface{} `json:"result"`
 }
 
 type SendTransactionResp struct {
@@ -181,6 +215,11 @@ type GetSlotLeaderResp struct {
 	Result string `json:"result"`
 }
 
+type GetVoteAccountsResp struct {
+	SolanaBaseRpcResponse
+	Result *VoteAccounts `json:"result"`
+}
+
 type GetFeeRateGovernorResp struct {
 	SolanaBaseRpcResponse
 	Result *FeeRateGovernor `json:"result"`
@@ -204,6 +243,11 @@ type GetRecentBlockHashResp struct {
 type GetBlockCommitmentResp struct {
 	SolanaBaseRpcResponse
 	Result *BlockCommitment `json:"result"`
+}
+
+type GetTransactionCountResp struct {
+	SolanaBaseRpcResponse
+	Result uint64 `json:"result"`
 }
 
 type BlockCommitment struct {
@@ -246,6 +290,13 @@ type SearchTransactionHistory struct {
 	SearchTransactionHistory bool `json:"searchTransactionHistory"`
 }
 
+type RpcPerfSample struct {
+	Slot              uint64 `json:"slot"`
+	NumTransactions   uint64 `json:"numTransactions"`
+	NumSlots          uint64 `json:"numSlots"`
+	SamplePeriodSpecs uint16 `json:"samplePeriodSpecs"`
+}
+
 type InflationGovernor struct {
 	Initial        float64 `json:"initial"`
 	Terminal       float64 `json:"terminal"`
@@ -272,6 +323,34 @@ type SignatureStatuses struct {
 		Err                interface{} `json:"err"`
 		ConfirmationStatus string      `json:"confirmationStatus"`
 	} `json:"value"`
+}
+
+type EpochSchedule struct {
+	SlotsPerEpoch            uint64 `json:"slotsPerEpoch"`
+	LeaderScheduleSlotOffset uint64 `json:"leaderScheduleSlotOffset"`
+	Warmup                   bool   `json:"warmup"`
+	FirstNormalEpoch         uint64 `json:"firstNormalEpoch"`
+	FirstNormalSlot          uint64 `json:"firstNormalSlot"`
+}
+
+type SolanaVersion struct {
+	SolanaCore string `json:"solana-core"`
+	FeatureSet uint64 `json:"feature-set"`
+}
+
+type VoteAccounts struct {
+	Current    []VoteAccount `json:"current"`
+	Delinquent []VoteAccount `json:"delinquent"`
+}
+
+type VoteAccount struct {
+	VotePubkey       string     `json:"votePubkey"`
+	NodePubkey       string     `json:"nodePubkey"`
+	ActivatedStake   uint64     `json:"activatedStake"`
+	EpochVoteAccount bool       `json:"epochVoteAccount"`
+	Commission       uint8      `json:"commission"`
+	LastVote         uint64     `json:"lastVote"`
+	EpochCredits     [][]uint64 `json:"epochCredits"`
 }
 
 type ConfirmedTransaction struct {
