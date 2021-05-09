@@ -40,7 +40,7 @@ Supported API methods:
 * getMaxShredInsertSlot
 * getMinimumBalanceForRentExemption
 * getMultipleAccounts
-* getProgramAccounts //faulty
+* getProgramAccounts
 * getRecentBlockhash
 * getRecentPerformanceSamples
 * getSignatureStatuses
