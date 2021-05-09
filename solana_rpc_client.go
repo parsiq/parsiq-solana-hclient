@@ -553,7 +553,6 @@ func (client *SolanaRpcClient) GetMultipleAccounts(pubkeys []string, params ...*
 }
 
 //https://docs.solana.com/developing/clients/jsonrpc-api#getprogramaccounts
-//TODO "code":-32602,"message":"Invalid params: invalid value: map, expected map with a single key."
 func (client *SolanaRpcClient) GetProgramAccounts(pubKey string, params ...*ProgramAccountParams) (*GetProgramAccountsResp, error) {
 	request := &SolanaRpcRequest{}
 	if params == nil {
@@ -740,14 +739,12 @@ func (client *SolanaRpcClient) doRequest(request *SolanaRpcRequest, responseObj 
 	buffer := &bytes.Buffer{}
 	data, _ := json.Marshal(request)
 	buffer.Write(data)
-
 	response, err := client.rawClient.Post(client.host, "application/json", buffer)
 	if err != nil {
 		return err
 	}
 	defer response.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(response.Body)
-	//fmt.Println(string(bodyBytes))
 	if err != nil {
 		return err
 	}

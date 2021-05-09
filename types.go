@@ -535,7 +535,12 @@ type ProgramAccountParams struct {
 		Offset uint `json:"offset"`
 		Length uint `json:"length"`
 	} `json:"dataSlice"`
-	Filters []Filter `json:"filters"`
+	Filters []interface{} `json:"filters"`
+}
+
+//We can't pass dataSize within Filter since it MUST have other position within the array in ProgramAccountParams
+type DataSize struct {
+	DataSize uint64 `json:"dataSize"`
 }
 
 type Filter struct {
@@ -543,7 +548,6 @@ type Filter struct {
 		Offset uint64 `json:"offset"`
 		Bytes  string `json:"bytes"`
 	} `json:"memcmp"`
-	DataSize uint64 `json:"dataSize"`
 }
 
 type ClusterNodes struct {

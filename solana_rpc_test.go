@@ -267,13 +267,18 @@ func TestGetProgramAccounts(t *testing.T) {
 		},
 	}
 	custom := NewCustomSolanaRpcClient(testApiRpcAddr, client)
-	filter := make([]Filter, 1)
-
-	filter[0].DataSize = 17
-	filter[0].Memcmp.Offset = 4
-	filter[0].Memcmp.Bytes = "3Mc6vR"
-
-	resp, err := custom.GetProgramAccounts("4Nd1mBQtrMJVYVfKf2PJy9NZUZdTAsp7D4xWLs4gDB4T", &ProgramAccountParams{Filters: filter})
+	filters := Filter{}
+	filters.Memcmp.Offset = 4
+	filters.Memcmp.Bytes = "3Mc6vR"
+	data := DataSize{DataSize: 5}
+	arr := []interface{}{
+		filters,
+		data,
+	}
+	resp, err := custom.GetProgramAccounts("4Nd1mBQtrMJVYVfKf2PJy9NZUZdTAsp7D4xWLs4gDB4T", &ProgramAccountParams{
+		Encoding: "base58",
+		Filters:  arr,
+	})
 	if err != nil {
 		panic(err)
 	}
