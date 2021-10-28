@@ -30,7 +30,7 @@ type GetSnapshotSlotResp struct {
 	Result uint64 `json:"result"`
 }
 
-type GetConfirmedBlockResp struct {
+type GetBlockResp struct {
 	SolanaBaseRpcResponse
 	Result *SolanaBlock `json:"result"`
 }
@@ -616,7 +616,7 @@ type SolanaBlock struct {
 	ParentSlot        uint64 `json:"parentSlot"`
 	PreviousBlockhash string `json:"previousBlockhash"`
 	Rewards           []struct {
-		Lamports    uint64 `json:"lamports"`
+		Lamports    int64  `json:"lamports"`
 		PostBalance uint64 `json:"postBalance"`
 		Pubkey      string `json:"pubkey"`
 		RewardType  string `json:"rewardType"`

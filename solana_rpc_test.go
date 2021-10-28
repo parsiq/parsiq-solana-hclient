@@ -14,8 +14,8 @@ const (
 
 func TestGetConfirmedBlock(t *testing.T) {
 	client := NewSolanaRpcClient(testApiRpcAddr)
-	epoch, _ := client.GetEpochInfo()
-	resp, err := client.GetConfirmedBlock(epoch.Result.AbsoluteSlot)
+	epoch, err := client.GetEpochInfo()
+	resp, err := client.GetBlock(epoch.Result.AbsoluteSlot)
 	if err != nil {
 		panic(err)
 	}

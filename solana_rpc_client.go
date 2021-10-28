@@ -32,9 +32,9 @@ func NewCustomSolanaRpcClient(address string, httpClient *http.Client) *SolanaRp
 }
 
 // https://docs.solana.com/developing/clients/jsonrpc-api#getconfirmedblock
-func (client *SolanaRpcClient) GetConfirmedBlock(slotNumber uint64) (*GetConfirmedBlockResp, error) {
-	request := client.buildRequest("getConfirmedBlock", slotNumber, "json")
-	responseObj := &GetConfirmedBlockResp{}
+func (client *SolanaRpcClient) GetBlock(slotNumber uint64) (*GetBlockResp, error) {
+	request := client.buildRequest("getBlock", slotNumber, "json")
+	responseObj := &GetBlockResp{}
 	if err := client.doRequest(request, responseObj); err != nil {
 		return nil, err
 	}
